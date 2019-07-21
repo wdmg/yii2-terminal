@@ -11,7 +11,6 @@ use yii\filters\AccessControl;
  * TerminalController
  *
  * @author Alexsander Vyshnyvetskyy <alex.vyshnyvetskyy@gmail.com>
- *
  * @property wdmg\terminal\Module $module
  */
 class TerminalController extends Controller
