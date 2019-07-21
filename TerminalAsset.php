@@ -12,7 +12,7 @@ class TerminalAsset extends AssetBundle
     public $sourcePath = '@wdmg/terminal/assets';
 
     public $css = [
-        'terminal.css',
+        YII_ENV_DEV ? 'css/terminal.css' : 'css/terminal.min.css',
     ];
 
     public $depends = [
