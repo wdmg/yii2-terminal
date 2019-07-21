@@ -1,5 +1,5 @@
 # Yii2 Terminal
-Run`s console commands from a browser
+Running console commands from a browser
 
 # Requirements 
 * PHP 5.6 or higher
@@ -7,4 +7,4 @@ Run`s console commands from a browser
 * [Yii2 Base](https://github.com/wdmg/yii2-base) module (required)
 
 # Status and version [in progress development]
-* v.0.0.1 - Initial commit
+* v.0.0.1 - Added base module, composer.json, translations and controller
