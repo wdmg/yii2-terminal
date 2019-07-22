@@ -8,5 +8,6 @@ Running console commands from a browser
 * [jQuery Terminal Emulator](https://github.com/jcubic/jquery.terminal) (required)
 
 # Status and version [in progress development]
+* v.1.0.0 - Support for yii console commands
 * v.0.0.2 - Added terminal config and view, module assets, jQuery Terminal assets and configure grunt
 * v.0.0.1 - Added base module, composer.json, translations and controller

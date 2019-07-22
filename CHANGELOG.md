@@ -1,6 +1,9 @@
 Changelog
 =========
 
+## 1.0.0 (2019-07-22)
+ * Support for yii console commands
+
 ## 0.0.2 (2019-07-22)
  * Added terminal config and view
  * Added jQuery Terminal assets
