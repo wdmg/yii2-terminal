@@ -2,6 +2,7 @@ Changelog
 =========
 
 ## 0.0.2 (2019-07-22)
+ * Added terminal config and view
  * Added jQuery Terminal assets
  * Added assets and configure grunt
 

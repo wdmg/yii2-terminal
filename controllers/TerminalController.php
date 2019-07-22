@@ -67,8 +67,25 @@ class TerminalController extends Controller
      */
     public function actionIndex()
     {
+        $greetings = $this->module->name . ' [v.' . $this->module->version . ']';
+
+        $prompt = '$ ';
+        $path = addslashes(Yii::getAlias('@app'));
+
+        if ($path)
+            $prompt = $path.'$ ';
+
+        if(!(Yii::$app->user->isGuest) && isset(Yii::$app->user->identity->username)) {
+            $prompt = Yii::$app->user->identity->username . ':' . Yii::$app->request->serverName . ' ~$ ';
+
+            if ($path)
+                $prompt = Yii::$app->user->identity->username . ':'. Yii::$app->request->serverName .' '.$path.'$ ';
+        }
+
         return $this->render('index', [
-            'module' => $module
+            'module' => $this->module,
+            'greetings' => $greetings,
+            'prompt' => $prompt
         ]);
     }
 }
