@@ -1,6 +1,6 @@
 {
   "name": "yii2-terminal-assets",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Terminal Module Assets",
   "main": "Gruntfile.js",
   "scripts": {

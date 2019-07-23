@@ -97,12 +97,21 @@ class TerminalController extends Controller
 
         $rpcRoute = Url::toRoute(['terminal/rpc']);
 
-        return $this->render('index', [
-            'module' => $this->module,
-            'greetings' => $greetings,
-            'rpcRoute' => $rpcRoute,
-            'prompt' => $prompt
-        ]);
+        if (Yii::$app->request->isAjax) {
+            return $this->renderAjax('_terminal', [
+                'module' => $this->module,
+                'greetings' => $greetings,
+                'rpcRoute' => $rpcRoute,
+                'prompt' => $prompt
+            ]);
+        } else {
+            return $this->render('index', [
+                'module' => $this->module,
+                'greetings' => $greetings,
+                'rpcRoute' => $rpcRoute,
+                'prompt' => $prompt
+            ]);
+        }
     }
 
 

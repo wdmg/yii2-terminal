@@ -1,6 +1,9 @@
 Changelog
 =========
 
+## 1.0.1 (2019-07-23)
+ * Added ajax render for modal etc.
+ 
 ## 1.0.0 (2019-07-22)
  * Support for yii console commands
 
