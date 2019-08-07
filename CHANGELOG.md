@@ -1,6 +1,9 @@
 Changelog
 =========
 
+## 1.0.2 (2019-08-08)
+ * Added assets
+
 ## 1.0.1 (2019-07-23)
  * Added ajax render for modal etc.
  

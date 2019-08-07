@@ -6,7 +6,7 @@ namespace wdmg\terminal;
  * Yii2 Terminal
  *
  * @category        Module
- * @version         1.0.1
+ * @version         1.0.2
  * @author          Alexsander Vyshnyvetskyy <alex.vyshnyvetskyy@gmail.com>
  * @link            https://github.com/wdmg/yii2-terminal
  * @copyright       Copyright (c) 2019 W.D.M.Group, Ukraine
@@ -45,7 +45,7 @@ class Module extends BaseModule
     /**
      * @var string the module version
      */
-    private $version = "1.0.1";
+    private $version = "1.0.2";
 
     /**
      * @var integer, priority of initialization
