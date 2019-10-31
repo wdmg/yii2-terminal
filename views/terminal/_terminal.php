@@ -11,7 +11,31 @@ $terminalId = rand(1, 999);
 <div id="terminalArea-<?= $terminalId; ?>" class="terminal"></div>
 <?php $this->registerJs(<<< JS
 jQuery(function($, undefined) {
+    
     var terminal = $('#terminalArea-$terminalId');
+    var prompt = '$prompt';
+    
+    function getRandomInt(max) {
+        return Math.floor(Math.random() * Math.floor(max));
+    }
+    
+    function getPrompt() {
+        $.ajax({
+            url: '{$promptRoute}' + '?_=' + getRandomInt(9999999),
+            dataType: 'json',
+            success: function(response, status, jqXHR) {
+                prompt = response.result;
+                terminal.set_prompt(prompt);
+                terminal.resume();
+            },
+            error: function(status, jqXHR) {
+                terminal.set_prompt(prompt);
+                terminal.resume();
+            }
+        });
+        //terminal.echo('');
+    }
+    
     terminal.terminal(function(command, term) {
         
         if (command === 'help') {
@@ -31,16 +55,14 @@ jQuery(function($, undefined) {
                 [command],
                 function(response, status, jqXHR) {
                     term.echo(response.result);
-                    term.echo('');
-                    term.resume();
+                    getPrompt();
                 }, function(jqXHR, status) {
-                    term.resume();
+                    getPrompt();
                 }
             );
         } else if (command === '') {
             term.resume();
         }
-        //term.echo('');
         
         $('html, body').animate({
             scrollTop: terminal.height()
@@ -54,25 +76,8 @@ jQuery(function($, undefined) {
         greetings: '$greetings',
         name: 'yii2-terminal',
         height: 320,
-        prompt: '$prompt'
+        prompt: prompt
     });
-    
-    if (typeof pipe == 'function') {
-        var count = 0;
-        terminal.terminal(pipe({
-            echo: function(string) {
-                return new Promise(function(resolve) {
-                    term.echo(string);
-                    setTimeout(resolve, 1000);
-                });
-            },
-            read: function() {
-                return term.read('').then(function(string) {
-                    term.echo('read[' +(++count)+']: ' + string);
-                });
-            }
-        }));
-    }
     
     /* For modal`s use only */
     var modal = $('.terminal-modal');
@@ -82,7 +87,7 @@ jQuery(function($, undefined) {
         modal.find('.modal-dialog').resizable({
             alsoResize: '.terminal',
             resize: function(event, ui) {
-                terminal.resize((ui.size.width - 20), ui.size.height);
+                terminal.resize((ui.size.width - 22), ui.size.height);
             }
         });
         

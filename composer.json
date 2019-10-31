@@ -38,8 +38,28 @@
       "allowCLI": false,
       "supportCLI": [
         "php",
+        "mysql",
         "curl",
-        "tar"
+        "tar",
+        "gzip",
+        "lzma",
+        "ls",
+        "mkdir",
+        "cat",
+        "cd",
+        "pwd",
+        "touch",
+        "less",
+        "head",
+        "tail",
+        "rm",
+        "rmdir",
+        "history",
+        "cp",
+        "mv",
+        "find",
+        "quota",
+        "scp"
       ]
     }
   }

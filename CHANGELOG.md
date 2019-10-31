@@ -2,6 +2,7 @@ Changelog
 =========
 
 ## 1.1.0 (2019-10-31)
+ * Added base path support
  * Added CLI support, customize stylesheets, added resize and draggable
  
 ## 1.0.2 (2019-08-08)

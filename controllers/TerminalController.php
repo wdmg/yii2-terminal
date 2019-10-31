@@ -25,6 +25,11 @@ class TerminalController extends Controller
     public $defaultAction = 'index';
 
     /**
+     * Current path for CLI
+     */
+    private $path = null;
+
+    /**
      * {@inheritdoc}
      */
     public function behaviors()
@@ -70,6 +75,18 @@ class TerminalController extends Controller
     public function init()
     {
         Yii::$app->request->enableCsrfValidation = false;
+
+
+        $session = Yii::$app->session;
+        $path = $session->get('terminal.path');
+
+        // Set of current path
+        if ($path)
+            $this->path = $path;
+        else
+            $this->path = addslashes(Yii::getAlias('@app'));
+
+
         parent::init();
     }
 
@@ -85,36 +102,35 @@ class TerminalController extends Controller
         else
             $greetings = $this->module->name . ' [v.' . $this->module->version . '], PHP v.' . phpversion();
 
-        $prompt = '$ ';
-        $path = addslashes(Yii::getAlias('@app'));
-
-        if ($path)
-            $prompt = $path.'$ ';
-
-        if(!(Yii::$app->user->isGuest) && isset(Yii::$app->user->identity->username)) {
-            $prompt = Yii::$app->user->identity->username . ':' . Yii::$app->request->serverName . ' ~$ ';
-
-            if ($path)
-                $prompt = Yii::$app->user->identity->username . ':'. Yii::$app->request->serverName .' '.$path.'$ ';
-        }
-
+        $promptRoute = Url::toRoute(['terminal/prompt']);
         $rpcRoute = Url::toRoute(['terminal/rpc']);
 
         if (Yii::$app->request->isAjax) {
             return $this->renderAjax('_terminal', [
                 'module' => $this->module,
                 'greetings' => $greetings,
+                'promptRoute' => $promptRoute,
                 'rpcRoute' => $rpcRoute,
-                'prompt' => $prompt
+                'prompt' => $this->getPrompt()
             ]);
         } else {
             return $this->render('index', [
                 'module' => $this->module,
                 'greetings' => $greetings,
+                'promptRoute' => $promptRoute,
                 'rpcRoute' => $rpcRoute,
-                'prompt' => $prompt
+                'prompt' => $this->getPrompt()
             ]);
         }
+    }
+
+    /**
+     * Prompt action
+     * @return array
+     */
+    public function actionPrompt()
+    {
+        return $this->asJson(['result' => $this->getPrompt()]);
     }
 
     /**
@@ -123,6 +139,13 @@ class TerminalController extends Controller
      */
     public function actionRpc()
     {
+
+        $session = Yii::$app->session;
+
+        // Set of current path
+        if (is_dir($this->path))
+            chdir($this->path);
+
         // CLI is allowed?
         if (isset(Yii::$app->params['terminal.allowCLI']))
             $allowCLI = Yii::$app->params['terminal.allowCLI'];
@@ -151,6 +174,16 @@ class TerminalController extends Controller
                 if ($allowCLI) {
                     if (in_array($cmd, $supportCLI)) {
                         list ($status, $output) = $this->runConsole($cmd, $command);
+
+                        if ($cmd == 'cd') {
+                            if (is_dir($command)) {
+                                if (chdir($command) && getcwd()) {
+                                    $this->path = getcwd();
+                                    $session->set('terminal.path', $this->path);
+                                }
+                            }
+                        }
+
                     } else {
                         $output = '[[;orange;]Warning! The command `'.$cmd.'` not supported!]';
                     }
@@ -158,7 +191,6 @@ class TerminalController extends Controller
                     $output = '[[;red;]Error! CLI command`s not allowed!]';
                 }
             }
-
 
             return $this->asJson(['result' => $output]);
         }
@@ -176,7 +208,7 @@ class TerminalController extends Controller
     private function runConsole($cmd, $command)
     {
         if ($cmd) {
-            set_time_limit(0);
+            set_time_limit(30);
             $handler = popen($cmd . ' ' . $command . ' 2>&1', 'r');
             $output = '';
             while (!feof($handler)) {
@@ -186,5 +218,27 @@ class TerminalController extends Controller
         } else {
             return null;
         }
+    }
+
+    /**
+     * Get prompt
+     * @return string
+     */
+    public function getPrompt()
+    {
+        $prompt = '$ ';
+
+        if ($this->path)
+            $prompt = $this->path . '$ ';
+
+        if(!(Yii::$app->user->isGuest) && isset(Yii::$app->user->identity->username)) {
+            $prompt = Yii::$app->request->serverName . ':~ ' . Yii::$app->user->identity->username . '$ ';
+
+            if ($this->path)
+                $prompt = Yii::$app->request->serverName . ':' . $this->path . ' ' . Yii::$app->user->identity->username . '$ ';
+
+        }
+
+        return $prompt;
     }
 }
