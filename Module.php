@@ -6,7 +6,7 @@ namespace wdmg\terminal;
  * Yii2 Terminal
  *
  * @category        Module
- * @version         1.0.2
+ * @version         1.1.0
  * @author          Alexsander Vyshnyvetskyy <alex.vyshnyvetskyy@gmail.com>
  * @link            https://github.com/wdmg/yii2-terminal
  * @copyright       Copyright (c) 2019 W.D.M.Group, Ukraine
@@ -43,9 +43,23 @@ class Module extends BaseModule
     public $description = "Running console commands from a browser";
 
     /**
+     * @var boolean, the flag to allow CLI
+     */
+    public $allowCLI = true;
+
+    /**
+     * @var array, the list of support CLI commands
+     */
+    public $supportCLI = [
+        'php',
+        'curl',
+        'tar'
+    ];
+
+    /**
      * @var string the module version
      */
-    private $version = "1.0.2";
+    private $version = "1.1.0";
 
     /**
      * @var integer, priority of initialization

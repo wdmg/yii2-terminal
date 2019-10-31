@@ -4,7 +4,6 @@ namespace wdmg\terminal\controllers;
 
 use Yii;
 use yii\web\Controller;
-use yii\web\Response;
 use yii\helpers\Url;
 use yii\helpers\Json;
 use yii\filters\VerbFilter;
@@ -80,7 +79,11 @@ class TerminalController extends Controller
      */
     public function actionIndex()
     {
-        $greetings = $this->module->name . ' [v.' . $this->module->version . ']';
+
+        if ($phpversion = $this->runConsole('php', '-v'))
+            $greetings = $this->module->name . ' [v.' . $this->module->version . '], ' . trim(preg_replace('/\n+/', '\n', $phpversion[1]));
+        else
+            $greetings = $this->module->name . ' [v.' . $this->module->version . '], PHP v.' . phpversion();
 
         $prompt = '$ ';
         $path = addslashes(Yii::getAlias('@app'));
@@ -114,22 +117,52 @@ class TerminalController extends Controller
         }
     }
 
-
     /**
      * RPC action
      * @return array
      */
     public function actionRpc()
     {
-        Yii::$app->response->format = Response::FORMAT_JSON;
+        // CLI is allowed?
+        if (isset(Yii::$app->params['terminal.allowCLI']))
+            $allowCLI = Yii::$app->params['terminal.allowCLI'];
+        else
+            $allowCLI = Yii::$app->controller->module->allowCLI;
+
+        // Support CLI commands?
+        if (isset(Yii::$app->params['terminal.supportCLI']))
+            $supportCLI = Yii::$app->params['terminal.supportCLI'];
+        else
+            $supportCLI = Yii::$app->controller->module->supportCLI;
+
         $options = Json::decode(Yii::$app->request->getRawBody());
-
-
-
         if (intval($options['jsonrpc']) >= 2 && $options['method'] == "system.describe") {
-            list ($status, $output) = $this->runConsole(Yii::getAlias('@app/yii'), implode(' ', $options['params']));
-            return ['result' => $output];
+
+            $params = explode(' ', $options['params'][0]);
+            $cmd = $params[0];
+            $command = str_replace($cmd.' ', '', $options['params'][0]);
+
+            if ($cmd == 'actionCompress')
+                return [];
+
+            if ($cmd == 'yii') {
+                list ($status, $output) = $this->runConsole(Yii::getAlias('@app/yii'), $command);
+            } else {
+                if ($allowCLI) {
+                    if (in_array($cmd, $supportCLI)) {
+                        list ($status, $output) = $this->runConsole($cmd, $command);
+                    } else {
+                        $output = '[[;orange;]Warning! The command `'.$cmd.'` not supported!]';
+                    }
+                } else {
+                    $output = '[[;red;]Error! CLI command`s not allowed!]';
+                }
+            }
+
+
+            return $this->asJson(['result' => $output]);
         }
+        return [];
     }
 
 
@@ -144,8 +177,7 @@ class TerminalController extends Controller
     {
         if ($cmd) {
             set_time_limit(0);
-            $cmd = Yii::getAlias($cmd) . ' ' . $command . ' 2>&1';
-            $handler = popen($cmd, 'r');
+            $handler = popen($cmd . ' ' . $command . ' 2>&1', 'r');
             $output = '';
             while (!feof($handler)) {
                 $output .= fgets($handler);

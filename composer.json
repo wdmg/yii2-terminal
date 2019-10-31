@@ -4,7 +4,7 @@
   "keywords": ["yii2", "yii2-terminal", "terminal", "webshell", "wdmg"],
   "type": "yii2-extension",
   "license": "MIT",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "homepage": "https://github.com/wdmg/yii2-terminal",
   "support": {
     "source": "https://github.com/wdmg/yii2-terminal",
@@ -21,6 +21,7 @@
     }
   ],
   "require": {
+    "php": ">=5.6.0",
     "yiisoft/yii2": "^2.0.20",
     "wdmg/yii2-base": "^1.0.1",
     "bower-asset/jquery.terminal": "^2.6.3"
@@ -33,7 +34,13 @@
   },
   "extra": {
     "options": {
-      "routePrefix": "admin"
+      "routePrefix": "admin",
+      "allowCLI": false,
+      "supportCLI": [
+        "php",
+        "curl",
+        "tar"
+      ]
     }
   }
 }
