@@ -108,7 +108,7 @@ class TerminalController extends Controller
         if (Yii::$app->request->isAjax) {
             return $this->renderAjax('_terminal', [
                 'module' => $this->module,
-                'greetings' => $greetings,
+                'greetings' => $greetings . '\n',
                 'promptRoute' => $promptRoute,
                 'rpcRoute' => $rpcRoute,
                 'prompt' => $this->getPrompt()
@@ -116,7 +116,7 @@ class TerminalController extends Controller
         } else {
             return $this->render('index', [
                 'module' => $this->module,
-                'greetings' => $greetings,
+                'greetings' => $greetings . '\n',
                 'promptRoute' => $promptRoute,
                 'rpcRoute' => $rpcRoute,
                 'prompt' => $this->getPrompt()

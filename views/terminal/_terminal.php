@@ -33,7 +33,6 @@ jQuery(function($, undefined) {
                 terminal.resume();
             }
         });
-        //terminal.echo('');
     }
     
     terminal.terminal(function(command, term) {
@@ -64,19 +63,15 @@ jQuery(function($, undefined) {
             term.resume();
         }
         
-        $('html, body').animate({
-            scrollTop: terminal.height()
-        }, 'fast');
-        
-        $('html').on('keydown', function(e) {
-            terminal.click();
-        });
-        
     }, {
         greetings: '$greetings',
         name: 'yii2-terminal',
         height: 320,
         prompt: prompt
+    });
+    
+    $('html').on('keydown', function(e) {
+        terminal.click();
     });
     
     /* For modal`s use only */
@@ -101,6 +96,10 @@ jQuery(function($, undefined) {
             'max-height': '100%'
           });
         });
+    } else {
+        $('html, body').animate({
+            scrollTop: terminal.height()
+        }, 'fast');
     }
 
     
