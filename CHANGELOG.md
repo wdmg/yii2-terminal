@@ -1,6 +1,9 @@
 Changelog
 =========
 
+## 1.1.1 (2019-12-10)
+ * Fixed deprecated class declaration
+
 ## 1.1.0 (2019-10-31)
  * Added base path support
  * Added CLI support, customize stylesheets, added resize and draggable
