@@ -22,8 +22,8 @@
   ],
   "require": {
     "php": ">=5.6.0",
-    "yiisoft/yii2": "^2.0.20",
-    "wdmg/yii2-base": "^1.0.1",
+    "yiisoft/yii2": "^2.0.33",
+    "wdmg/yii2-base": "^1.1.6",
     "bower-asset/jquery.terminal": "^2.6.3"
   },
   "minimum-stability": "dev",
