@@ -1,6 +1,10 @@
 Changelog
 =========
 
+## 1.2.0 (2020-10-06)
+ * Bugfix, CLI disabled by default
+ * Uupdate dependencies
+ 
 ## 1.1.3 (2020-06-14)
  * Update README.md and dependencies
  

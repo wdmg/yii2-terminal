@@ -24,8 +24,10 @@ For example:
 * Yii2 v.2.0.35 and newest
 * [Yii2 Base](https://github.com/wdmg/yii2-base) module (required)
 * [jQuery Terminal Emulator](https://github.com/jcubic/jquery.terminal) (required)
+* [jQuery UI](https://github.com/components/jqueryui) (required)
 
 # Status and version [ready to use]
+* v.1.2.0 - CLI disabled by default. Bugfix, update dependencies
 * v.1.1.3 - Update README.md and dependencies
 * v.1.1.2 - Up to date dependencies
 * v.1.1.1 - Fixed deprecated class declaration

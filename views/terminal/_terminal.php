@@ -10,7 +10,8 @@ $terminalId = rand(1, 999);
 ?>
 <div id="terminalArea-<?= $terminalId; ?>" class="terminal"></div>
 <?php $this->registerJs(<<< JS
-jQuery(function($, undefined) {
+
+$(function() {
     
     var terminal = $('#terminalArea-$terminalId');
     var prompt = '$prompt';
@@ -48,6 +49,10 @@ jQuery(function($, undefined) {
             term.echo('');
         } else if (command.length >= 2) {
             term.pause();
+            
+            if (command.indexOf('php yii') >= 0)
+                command = command.replace('php yii', 'yii');
+            
             $.jrpc(
                 '{$rpcRoute}',
                 'system.describe',
@@ -74,12 +79,15 @@ jQuery(function($, undefined) {
         terminal.click();
     });
     
-    /* For modal`s use only */
-    var modal = $('.terminal-modal');
-    if (modal.length > 0) {
+    $('#terminalModal').find('.modal-body').css({
+        'max-height': '100%'
+    });
+    
+    // Wait to load js assets
+    setTimeout(function() {
         
         // jQuery UI Resizable
-        modal.find('.modal-dialog').resizable({
+        $('#terminalModal').find('.modal-dialog').resizable({
             alsoResize: '.terminal',
             resize: function(event, ui) {
                 terminal.resize((ui.size.width - 22), ui.size.height);
@@ -87,22 +95,13 @@ jQuery(function($, undefined) {
         });
         
         // jQuery UI Draggable
-        modal.find('.modal-dialog').draggable({
+        $('#terminalModal').find('.modal-dialog').draggable({
             handle: '.modal-header'
         });
         
-        modal.on('show.bs.modal', function() {
-          $(this).find('.modal-body').css({
-            'max-height': '100%'
-          });
-        });
-    } else {
-        $('html, body').animate({
-            scrollTop: terminal.height()
-        }, 'fast');
-    }
-
+    }, 2000);
     
 });
+
 JS
 ); ?>

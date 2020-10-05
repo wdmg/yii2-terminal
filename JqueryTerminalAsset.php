@@ -10,16 +10,16 @@ use yii\web\AssetBundle;
  */
 class JqueryTerminalAsset extends AssetBundle
 {
-    public $sourcePath = '@bower/jquery.terminal';
+    public $sourcePath = '@bower';
 
     public $js = YII_ENV_DEV ? [
-        'js/jquery.terminal.js',
-        'js/pipe.js',
-        'https://code.jquery.com/ui/1.11.3/jquery-ui.js'
+        ['jquery.terminal/js/jquery.terminal.js', 'position' => \yii\web\View::POS_HEAD],
+        ['jquery.terminal/js/pipe.js', 'position' => \yii\web\View::POS_HEAD],
+        ['jquery-ui/jquery-ui.js', 'position' => \yii\web\View::POS_HEAD]
     ] : [
-        'js/jquery.terminal.min.js',
-        'js/pipe.js',
-        'https://code.jquery.com/ui/1.11.3/jquery-ui.min.js'
+        ['jquery.terminal/js/jquery.terminal.min.js', 'position' => \yii\web\View::POS_HEAD],
+        ['jquery.terminal/js/pipe.js', 'position' => \yii\web\View::POS_HEAD],
+        ['jquery-ui/jquery-ui.min.js', 'position' => \yii\web\View::POS_HEAD]
     ];
 
     public $css = [

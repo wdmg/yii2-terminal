@@ -6,7 +6,7 @@ namespace wdmg\terminal;
  * Yii2 Terminal
  *
  * @category        Module
- * @version         1.1.3
+ * @version         1.2.0
  * @author          Alexsander Vyshnyvetskyy <alex.vyshnyvetskyy@gmail.com>
  * @link            https://github.com/wdmg/yii2-terminal
  * @copyright       Copyright (c) 2019 - 2020 W.D.M.Group, Ukraine
@@ -45,7 +45,7 @@ class Module extends BaseModule
     /**
      * @var boolean, the flag to allow CLI
      */
-    public $allowCLI = true;
+    public $allowCLI = false;
 
     /**
      * @var array, the list of support CLI commands
@@ -53,10 +53,16 @@ class Module extends BaseModule
     public $supportCLI = [
         'php',
         'mysql',
+        'mysqli',
+        'psql',
         'curl',
+        'wget',
 
-        /*'ping',
-        'traceroute',*/
+        'apt',
+        'apt-get',
+
+        'ping',
+        'traceroute',
 
         'tar', // Short for Tape Archiver is an analogue to zip under Linux.
         'gzip', // Run gzip compression on a file.
@@ -86,7 +92,7 @@ class Module extends BaseModule
     /**
      * @var string the module version
      */
-    private $version = "1.1.3";
+    private $version = "1.2.0";
 
     /**
      * @var integer, priority of initialization

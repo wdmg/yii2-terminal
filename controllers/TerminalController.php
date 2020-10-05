@@ -97,7 +97,7 @@ class TerminalController extends Controller
     public function actionIndex()
     {
 
-        if ($phpversion = $this->runConsole('php', '-v'))
+        if ($phpversion = $this->module->runConsole('php -v', true, true))
             $greetings = $this->module->name . ' [v.' . $this->module->version . '], ' . trim(preg_replace('/\n+/', '\n', $phpversion[1]));
         else
             $greetings = $this->module->name . ' [v.' . $this->module->version . '], PHP v.' . phpversion();
@@ -147,16 +147,10 @@ class TerminalController extends Controller
             chdir($this->path);
 
         // CLI is allowed?
-        if (isset(Yii::$app->params['terminal.allowCLI']))
-            $allowCLI = Yii::$app->params['terminal.allowCLI'];
-        else
-            $allowCLI = Yii::$app->controller->module->allowCLI;
+        $allowCLI = $this->module->getOption('terminal.allowCLI');
 
         // Support CLI commands?
-        if (isset(Yii::$app->params['terminal.supportCLI']))
-            $supportCLI = Yii::$app->params['terminal.supportCLI'];
-        else
-            $supportCLI = Yii::$app->controller->module->supportCLI;
+        $supportCLI = $this->module->getOption('terminal.supportCLI');
 
         $options = Json::decode(Yii::$app->request->getRawBody());
         if (intval($options['jsonrpc']) >= 2 && $options['method'] == "system.describe") {
@@ -169,11 +163,11 @@ class TerminalController extends Controller
                 return [];
 
             if ($cmd == 'yii') {
-                list ($status, $output) = $this->runConsole(Yii::getAlias('@app/yii'), $command);
+                list ($status, $output) = $this->module->runConsole($command, true, false);
             } else {
                 if ($allowCLI) {
                     if (in_array($cmd, $supportCLI)) {
-                        list ($status, $output) = $this->runConsole($cmd, $command);
+                        list ($status, $output) = $this->module->runConsole($cmd . " " . $command, true, true);
 
                         if ($cmd == 'cd') {
                             if (is_dir($command)) {
@@ -205,7 +199,7 @@ class TerminalController extends Controller
      * @param string $command
      * @return null or array [status, output]
      */
-    private function runConsole($cmd, $command)
+    /*private function runConsole($cmd, $command)
     {
         if ($cmd) {
             set_time_limit(30);
@@ -218,7 +212,7 @@ class TerminalController extends Controller
         } else {
             return null;
         }
-    }
+    }*/
 
     /**
      * Get prompt
