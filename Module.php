@@ -6,14 +6,15 @@ namespace wdmg\terminal;
  * Yii2 Terminal
  *
  * @category        Module
- * @version         1.2.0
+ * @version         1.3.0
  * @author          Alexsander Vyshnyvetskyy <alex.vyshnyvetskyy@gmail.com>
  * @link            https://github.com/wdmg/yii2-terminal
- * @copyright       Copyright (c) 2019 - 2021 W.D.M.Group, Ukraine
+ * @copyright       Copyright (c) 2019 - 2023 W.D.M.Group, Ukraine
  * @license         https://opensource.org/licenses/MIT Massachusetts Institute of Technology (MIT) License
  *
  */
 
+use wdmg\helpers\ArrayHelper;
 use Yii;
 use wdmg\base\BaseModule;
 
@@ -92,7 +93,7 @@ class Module extends BaseModule
     /**
      * @var string the module version
      */
-    private $version = "1.2.0";
+    private $version = "1.3.0";
 
     /**
      * @var integer, priority of initialization
@@ -117,7 +118,7 @@ class Module extends BaseModule
     /**
      * {@inheritdoc}
      */
-    public function dashboardNavItems($options = false)
+    public function dashboardNavItems($options = null)
     {
         $items = [
             'label' => $this->name,
@@ -125,7 +126,20 @@ class Module extends BaseModule
             'icon' => 'fa-terminal',
             'active' => in_array(\Yii::$app->controller->module->id, [$this->id])
         ];
-        return $items;
+
+	    if (!is_null($options)) {
+
+		    if (isset($options['count'])) {
+			    $items['label'] .= '<span class="badge badge-default float-right">' . $options['count'] . '</span>';
+			    unset($options['count']);
+		    }
+
+		    if (is_array($options))
+			    $items = ArrayHelper::merge($items, $options);
+
+	    }
+
+	    return $items;
     }
 
     /**

@@ -1,6 +1,9 @@
 Changelog
 =========
 
+## 1.3.0 (2023-06-29)
+ * Update copyrights, fix nav menu
+
 ## 1.2.0 (2020-10-06)
  * Bugfix, CLI disabled by default
  * Uupdate dependencies
