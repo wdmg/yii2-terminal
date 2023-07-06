@@ -1,6 +1,9 @@
 Changelog
 =========
 
+## 1.3.1 (2023-07-06)
+ * Fix npm dependencies, assets
+
 ## 1.3.0 (2023-06-29)
  * Update copyrights, fix nav menu
 

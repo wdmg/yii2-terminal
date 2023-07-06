@@ -27,8 +27,16 @@
   -ms-backdrop-filter: blur(16px);
   -o-backdrop-filter: blur(16px);
   backdrop-filter: blur(16px);
+  color: #2AFA1C;
   --color: #2AFA1C;
   background: rgba(0, 0, 0, 0.82);
+}
+.terminal-modal .modal-content .modal-body .terminal > .terminal-scroller {
+  padding: 10px 15px;
+}
+.terminal-modal .modal-content .modal-body .terminal > .terminal-scroller > .terminal-wrapper {
+  overflow: auto;
+  max-height: 100%;
 }
 .terminal-modal .ui-draggable .modal-header,
 .terminal-modal .ui-draggable-handle .modal-header {
@@ -104,5 +112,3 @@
   right: -5px;
   top: -5px;
 }
-
-/*# sourceMappingURL=terminal.css.map */

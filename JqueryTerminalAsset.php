@@ -23,7 +23,7 @@ class JqueryTerminalAsset extends AssetBundle
     ];
 
     public $css = [
-        YII_ENV_DEV ? 'css/jquery.terminal.css' : 'css/jquery.terminal.min.css',
+        YII_ENV_DEV ? 'jquery.terminal/css/jquery.terminal.css' : 'jquery.terminal/css/jquery.terminal.css',
     ];
 
     public $depends = [

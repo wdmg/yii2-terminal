@@ -27,6 +27,6 @@ For example:
 * [jQuery UI](https://github.com/components/jqueryui) (required)
 
 # Status and version [ready to use]
+* v.1.3.1 - Fix npm dependencies, assets
 * v.1.3.0 - Update copyrights, fix nav menu
 * v.1.2.0 - CLI disabled by default. Bugfix, update dependencies
-* v.1.1.3 - Update README.md and dependencies

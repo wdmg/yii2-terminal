@@ -22,8 +22,16 @@
         -ms-backdrop-filter: blur(16px);
         -o-backdrop-filter: blur(16px);
         backdrop-filter: blur(16px);
+        color: #2AFA1C;
         --color: #2AFA1C;
         background: rgba(0, 0, 0, 0.82);
+        & > .terminal-scroller {
+          padding: 10px 15px;
+          & > .terminal-wrapper {
+            overflow: auto;
+            max-height: 100%;
+          }
+        }
       }
     }
   }

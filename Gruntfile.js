@@ -2,7 +2,7 @@
  * Main gruntfile for assets
  * Homepage: https://wdmg.com.ua/
  * Author: Vyshnyvetskyy Alexsander (alex.vyshyvetskyy@gmail.com)
- * Copyright 2019 W.D.M.Group, Ukraine
+ * Copyright 2019-2023 W.D.M.Group, Ukraine
  * Licensed under MIT
 */
 
